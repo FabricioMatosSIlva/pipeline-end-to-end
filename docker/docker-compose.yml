@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: fake_store_postgres
+    environment:
+      POSTGRES_DB: fakestore_dw
+      POSTGRES_USER: de_user
+      POSTGRES_PASSWORD: de_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  etl:
+    image: python:3.11-slim
+    container_name: fake_store_etl
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: fakestore_dw
+      POSTGRES_USER: de_user
+      POSTGRES_PASSWORD: de_password
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: >
+      bash -c "pip install pandas sqlalchemy psycopg2-binary pyarrow requests &&
+               echo 'ETL container ready. Use docker exec to run scripts.'"
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data:
