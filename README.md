@@ -1,4 +1,4 @@
-# End-to-End Data Pipeline
+# E-Commerce Data Pipeline (End-to-End ETL Architecture)
 
 A complete ETL (Extract-Transform-Load) data pipeline that ingests e-commerce data from the Fake Store API, transforms it through a multi-layer architecture, and loads it into a PostgreSQL data warehouse with a dimensional star schema.
 
